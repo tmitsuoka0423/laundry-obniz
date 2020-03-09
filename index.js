@@ -41,32 +41,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require('./.env');
 var obniz_1 = __importDefault(require("obniz"));
-var obniz = new obniz_1.default(process.env.OBNIZ_ID);
 var lineNotify = require('line-notify-nodejs')(process.env.LINE_NOTIFY_TOKEN);
-obniz.connect();
-obniz.connectWait().then(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var sensor;
+var callback = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var obniz, sensor, data;
     return __generator(this, function (_a) {
-        sensor = obniz.wired("SHT31", { vcc: 0, sda: 1, scl: 2, adr: 3, gnd: 4, addressmode: 5 });
-        setInterval(function () { return __awaiter(void 0, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, sensor.getAllWait()];
-                    case 1:
-                        data = _a.sent();
-                        console.log({ data: data });
-                        if (!(data.humidity < 40)) return [3 /*break*/, 3];
-                        return [4 /*yield*/, lineNotify.notify({
-                                message: '乾いたよ',
-                            })];
-                    case 2:
-                        _a.sent();
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); }, 60000);
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                obniz = new obniz_1.default(process.env.OBNIZ_ID);
+                obniz.connect();
+                return [4 /*yield*/, obniz.connectWait({})];
+            case 1:
+                _a.sent();
+                sensor = obniz.wired("SHT31", { vcc: 0, sda: 1, scl: 2, adr: 3, gnd: 4, addressmode: 5 });
+                return [4 /*yield*/, sensor.getAllWait()];
+            case 2:
+                data = _a.sent();
+                console.log({ data: data });
+                if (!(data.humidity < 35)) return [3 /*break*/, 4];
+                return [4 /*yield*/, lineNotify.notify({
+                        message: '乾いたよ',
+                    })];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4:
+                obniz.close();
+                return [2 /*return*/];
+        }
     });
-}); });
+}); };
+setInterval(callback, 60000);

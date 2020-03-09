@@ -1,0 +1,27 @@
+{
+  "name": "laundry-obniz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "exec": "OBNIZ_ID",
+    "tsc": "tsc",
+    "watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmitsuoka0423/laundry-obniz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmitsuoka0423/laundry-obniz/issues"
+  },
+  "homepage": "https://github.com/tmitsuoka0423/laundry-obniz#readme",
+  "dependencies": {
+    "@types/node": "^13.9.0",
+    "obniz": "^3.1.0",
+    "typescript": "^3.7.4"
+  }
+}
